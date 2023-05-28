@@ -10,7 +10,7 @@ import {
   Textarea,
   useToast,
 } from "@chakra-ui/react";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { sendContactForm } from "../lib/api";
 
 const initValues = { name: "", email: "", subject: "", message: "" };
@@ -20,7 +20,11 @@ const initState = { isLoading: false, error: "", values: initValues };
 export default function Home() {
   const toast = useToast();
   const [state, setState] = useState(initState);
+  const inputRef = useRef(null);
   const [touched, setTouched] = useState({});
+  useEffect(() => {
+        inputRef.current.focus();       // #3
+    }, [])
 
   const { values, isLoading, error } = state;
 
@@ -76,6 +80,7 @@ export default function Home() {
           name="name"
           errorBorderColor="red.300"
           value={values.name}
+          ref={ inputRef }
           onChange={handleChange}
           onBlur={onBlur}
         />
